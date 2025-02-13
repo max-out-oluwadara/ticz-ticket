@@ -7,22 +7,30 @@ import html2canvas from "html2canvas";
 import Image from "next/image";
 import { enableKeyboardNavigation, moveFocus, setAriaLive } from "@/utils/accessibility";
 
+// Define the types for the ticket data
+interface Ticket {
+  ticketId: string;
+  fullName: string;
+  email: string;
+  avatarUrl?: string;
+}
+
 export const Ticket = () => {
   const router = useRouter();
   const ticketRef = useRef<HTMLDivElement>(null);
-  const [tickets, setTickets] = useState<any[]>([]);
-  const [currentTicket, setCurrentTicket] = useState<any>(null);
+  const [tickets, setTickets] = useState<Ticket[]>([]); // Use specific Ticket type
+  const [currentTicket, setCurrentTicket] = useState<Ticket | null>(null); // Use Ticket or null type
   const [showAllTickets, setShowAllTickets] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    enableKeyboardNavigation(); // ✅ Ensures better keyboard support
+    enableKeyboardNavigation(); // Ensures better keyboard support
 
     const latestTicket = loadLatestTicket();
     const allTickets = loadAllTickets();
 
     if (!latestTicket) {
-      router.push("/");
+      router.push("/"); // Redirect if no latest ticket is available
     } else {
       setCurrentTicket(latestTicket);
       setTickets(allTickets);
@@ -129,7 +137,6 @@ export const Ticket = () => {
               Show All Tickets
             </button>
 
-            {/* ✅ Book Another Ticket Button */}
             <button
               id="homepage-button"
               onClick={() => router.push("/")}
@@ -178,7 +185,6 @@ export const Ticket = () => {
             </ul>
           )}
 
-          {/* ✅ Book Another Ticket Button */}
           <button
             id="homepage-button"
             onClick={() => router.push("/")}

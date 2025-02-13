@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import Image from "next/image";
 import { focusNextElement } from "@/utils/accessibility";
 
 interface AvatarUploadProps {
@@ -63,7 +64,13 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({ value, onUpload, err
       <div className="mt-2 flex items-center">
         {/* Avatar Display */}
         {value ? (
-          <img src={value} alt="Uploaded Avatar" className="h-16 w-16 rounded-full border" />
+          <Image
+            src={value}
+            alt="Uploaded Avatar"
+            width={64} // width of the avatar
+            height={64} // height of the avatar
+            className="rounded-full border"
+          />
         ) : (
           <div className="h-16 w-16 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
             <span className="text-gray-500 dark:text-gray-400">No Image</span>
