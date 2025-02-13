@@ -1,20 +1,21 @@
-import { TicketForm } from "@/components/TicketForm";
+"use client";
 
-export default function Home() {
+import { Navbar } from "@/app/home/components/Navbar";
+import { ContentArea } from "@/app/home/components/ContentArea";
+
+export default function TicketPage() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 p-6">
-      <main className="w-full max-w-2xl bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white text-center">
-          🎟 Welcome to the Conference Ticket Generator
-        </h1>
-        <p className="text-lg text-gray-700 dark:text-gray-300 text-center mt-4">
-          Fill out the form below to generate your conference ticket.
-        </p>
-
-        <div className="mt-6">
-          <TicketForm />
-        </div>
-      </main>
+    <div
+      className="min-h-screen flex flex-col items-center"
+      style={{
+        background:
+          "radial-gradient(52.52% 32.71% at 50% 97.66%, rgba(36, 160, 181, 0.2) 0%, rgba(36, 160, 181, 0) 100%), #02191D",
+      }}
+    >
+      <Navbar />
+      <div className="mt-[124px] w-full flex justify-center">
+        <ContentArea />
+      </div>
     </div>
   );
 }
