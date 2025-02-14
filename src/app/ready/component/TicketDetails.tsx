@@ -1,9 +1,27 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Image from "next/image"; // ✅ Import Next.js Image
 import TicketBackground from "@/assets/ticketbackground.svg"; // ✅ Import background SVG
 
 export const TicketDetails: React.FC = () => {
+  const [ticketData, setTicketData] = useState<{
+    name: string;
+    email: string;
+    ticketType: string;
+    ticketCount: string;
+    specialRequest: string;
+    profilePicture: string;
+  } | null>(null);
+
+  // ✅ Fetch ticket details from local storage on mount
+  useEffect(() => {
+    const savedData = localStorage.getItem("ticketData");
+    if (savedData) {
+      setTicketData(JSON.parse(savedData));
+    }
+  }, []);
+
   // ✅ Function to generate random barcode pattern
   const generateBarcode = () => {
     const barWidths = [2, 4, 6, 8, 9]; // ✅ Possible bar widths
@@ -47,9 +65,18 @@ export const TicketDetails: React.FC = () => {
           <span className="block mt-1">📅 Date & Time: Dec 10, 2025 | 5:00 PM</span>
         </div>
 
-        {/* Image Placeholder (140x140) */}
-        <div className="w-[140px] h-[140px] bg-gray-700 rounded-lg flex items-center justify-center opacity-40 mt-3">
-          <span className="text-xs opacity-80">Image Placeholder</span>
+        {/* Profile Image Placeholder (140x140) */}
+        <div className="w-[140px] h-[140px] bg-gray-700 rounded-lg flex items-center justify-center opacity-40 mt-3 relative">
+          {ticketData?.profilePicture ? (
+            <Image
+              src={ticketData.profilePicture}
+              alt="Profile"
+              fill
+              className="rounded-lg object-cover"
+            />
+          ) : (
+            <span className="text-xs opacity-80">Image Placeholder</span>
+          )}
         </div>
 
         {/* Ticket Info Table with Cell Borders */}
@@ -58,28 +85,28 @@ export const TicketDetails: React.FC = () => {
             {/* First Row */}
             <div className="p-2 border-b border-[#12464E]">
               <p className="opacity-70">Enter your name</p>
-              <p className="text-white">John Doe</p>
+              <p className="text-white">{ticketData?.name || "John Doe"}</p>
             </div>
             <div className="p-2 border-b border-[#12464E]">
               <p className="opacity-70">Enter your email*</p>
-              <p className="text-white">john.doe@example.com</p>
+              <p className="text-white">{ticketData?.email || "john.doe@example.com"}</p>
             </div>
 
             {/* Second Row */}
             <div className="p-2 border-b border-[#12464E]">
               <p className="opacity-70">Ticket Type</p>
-              <p className="text-white">VIP</p>
+              <p className="text-white">{ticketData?.ticketType || "VIP"}</p>
             </div>
             <div className="p-2 border-b border-[#12464E]">
               <p className="opacity-70">Ticket For</p>
-              <p className="text-white">Self</p>
+              <p className="text-white">{ticketData?.ticketCount || "Self"}</p>
             </div>
           </div>
 
           {/* Special Request (Spans full width) */}
           <div className="p-2">
             <p className="opacity-70">Special Request</p>
-            <p className="text-white">No special requests</p>
+            <p className="text-white">{ticketData?.specialRequest || "No special requests"}</p>
           </div>
         </div>
       </div>

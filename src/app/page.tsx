@@ -1,9 +1,31 @@
 "use client";
 
-import { Navbar } from "@/app/home/components/Navbar";
+import { Navbar } from "@/components/Navbar";
 import { ContentArea } from "@/app/home/components/ContentArea";
+import { AboutArea } from "@/app/about/component/AboutArea";
+import { TicketArea } from "@/app/ready/component/TicketArea";
+import { AttendeArea } from "@/app/attendee/component/AttendeArea";
+import { useForm } from "@/context/FormContext"; // ✅ Import Global State
 
 export default function TicketPage() {
+  const { state } = useForm(); // ✅ Get activePage from global state
+
+  // ✅ Function to dynamically render content
+  const renderContent = () => {
+    switch (state.activePage) {
+      case "home":
+        return <ContentArea />;
+      case "about":
+        return <AboutArea />;
+      case "tickets":
+        return <TicketArea />;
+      case "attendee":
+        return <AttendeArea />;
+      default:
+        return <ContentArea />;
+    }
+  };
+
   return (
     <div
       className="min-h-screen flex flex-col items-center"
@@ -14,7 +36,7 @@ export default function TicketPage() {
     >
       <Navbar />
       <div className="mt-[124px] w-full flex justify-center">
-        <ContentArea />
+        {renderContent()} {/* ✅ Dynamically render content based on state */}
       </div>
     </div>
   );

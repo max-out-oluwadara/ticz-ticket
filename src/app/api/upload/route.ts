@@ -1,10 +1,8 @@
 import { NextResponse } from "next/server";
 import cloudinary from "cloudinary";
-//import formidable, { Fields, Files, File } from "formidable";
-//import fs from "fs-extra";
 import { Readable } from "stream";
 
-// 📌 Setup Cloudinary Configuration
+// ✅ Cloudinary Configuration (Reads from .env)
 cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -14,7 +12,7 @@ cloudinary.v2.config({
 
 export async function POST(req: Request) {
   try {
-    // Use FormData API instead of formidable
+    // ✅ Read file from FormData
     const formData = await req.formData();
     const file = formData.get("file") as Blob | null;
 
@@ -22,10 +20,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
     }
 
-    // Convert file Blob to Buffer
+    // ✅ Convert file Blob to Buffer
     const fileBuffer = Buffer.from(await file.arrayBuffer());
 
-    // Upload to Cloudinary
+    // ✅ Upload to Cloudinary
     const uploadResult = await new Promise<cloudinary.UploadApiResponse>((resolve, reject) => {
       const uploadStream = cloudinary.v2.uploader.upload_stream(
         { folder: "avatars", resource_type: "image" },
@@ -38,7 +36,7 @@ export async function POST(req: Request) {
       Readable.from(fileBuffer).pipe(uploadStream); // ✅ Use Readable Stream for Cloudinary
     });
 
-    return NextResponse.json({ url: uploadResult.secure_url });
+    return NextResponse.json({ url: uploadResult.secure_url }); // ✅ Return URL to Frontend
   } catch (error) {
     console.error("Upload Error:", error);
     return NextResponse.json({ error: "Upload failed" }, { status: 500 });

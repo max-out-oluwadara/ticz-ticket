@@ -7,7 +7,7 @@ import { AvatarUpload } from "@/components/AvatarUpload";
 import { SubmitButton } from "@/components/SubmitButton";
 import { validateForm, FormErrors } from "@/utils/validation";
 import { saveFormData, loadFormData, saveTicket, clearFormData, loadLatestTicket } from "@/utils/storage";
-import { useFormContext } from "@/context/FormContex";
+import { useFormContext } from "@/context/FormContext";
 import { focusNextElement, setAriaLive } from "@/utils/accessibility";
 import { ErrorMessage } from "@/components/ErrorMessage";
 
