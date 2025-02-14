@@ -48,16 +48,20 @@ export const TicketSelection: React.FC = () => {
       </label>
 
       <div className="bg-[#052228] border border-[#07373F] rounded-[24px] p-4 sm:flex-col md:flex-row lg:flex-row flex justify-between items-center sm:gap-4 md:gap-3 lg:gap-3">
-        {["Free", "$150", "$500"].map((ticket) => (
+        {[
+          { type: "Free", access: "Regular Access" },
+          { type: "$150", access: "VIP Access" },
+          { type: "$150 ", access: "VVIP Access" },
+        ].map((ticket) => (
           <div
-            key={ticket}
+            key={ticket.type}
             className={`flex-1 text-left p-4 rounded-[12px] border-2 border-[#197686] sm:w-full cursor-pointer transition ${
-              state.ticketType === ticket ? "bg-[#07373F]" : "bg-transparent"
+              state.ticketType === ticket.type ? "bg-[#07373F]" : "bg-transparent"
             }`}
-            onClick={() => handleSelectTicketType(ticket)}
+            onClick={() => handleSelectTicketType(ticket.type)}
           >
-            <h2 className="text-white text-lg font-semibold">{ticket}</h2>
-            <p className="text-gray-300">Regular Access</p>
+            <h2 className="text-white text-lg font-semibold">{ticket.type}</h2>
+            <p className="text-gray-300">{ticket.access}</p>
             <p className="text-gray-400">20/52</p>
           </div>
         ))}
